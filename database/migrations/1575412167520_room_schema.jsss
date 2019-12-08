@@ -2,7 +2,7 @@
 
 const Schema = use('Schema')
 
-class RooomSchema extends Schema {
+class RoomSchema extends Schema {
   up() {
     this.create('properties', table => {
       table.increments()

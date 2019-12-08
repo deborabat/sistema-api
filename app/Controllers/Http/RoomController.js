@@ -1,6 +1,6 @@
 'use strict'
-const Room = use('App/Models/Room')
-
+/** @type {import('@adonisjs/lucid/src/Factory')} */
+const Room = use("App/Models/Room")
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,10 +18,7 @@ class RoomController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index() {
-    const properties = Room.all()
-
-    return properties
+  async index({ request, response, view }) {
   }
 
   /**
@@ -33,8 +30,29 @@ class RoomController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+  async create({ request, response, view }) {
+    console.log('adas')
+    try {
+      const data = request.only(["title", "block", "department"])
 
+      const room = await Room.create(data)
+      return room
+    } catch (error) {
+      console.log(error)
+      return response.status(500).send({ error })
+    }
+  }
+
+  /**
+   * Create/save a new room.
+   * POST rooms
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
   async store({ request, response }) {
+
   }
 
   /**
@@ -46,14 +64,29 @@ class RoomController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params }) {
-    const room = await Room.findOrFail(params.id)
-
-    await room.load('images')
-
-    return room
+  async show({ params, request, response, view }) {
   }
 
+  /**
+   * Render a form to update an existing room.
+   * GET rooms/:id/edit
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async edit({ params, request, response, view }) {
+  }
+
+  /**
+   * Update room details.
+   * PUT or PATCH rooms/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
   async update({ params, request, response }) {
   }
 
@@ -65,14 +98,7 @@ class RoomController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, auth, response }) {
-    const room = await Room.findOrFail(params.id)
-
-    if (room.user_id !== auth.user.id) {
-      return response.status(401).send({ error: 'Not authorized' })
-    }
-
-    await room.delete()
+  async destroy({ params, request, response }) {
   }
 }
 
