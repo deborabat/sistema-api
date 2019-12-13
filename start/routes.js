@@ -9,5 +9,7 @@ Route.group(() => {
   Route.get('/room', 'RoomController.index')
   Route.get('/room/schedule', 'RoomController.indexSchedule')
   Route.post('/room/schedule', 'ScheduleController.create')
+  Route.post('/report', 'ReportController.createReport').validator("CreateReport")
+  Route.get('/report', 'ReportController.indexRport')
 }).prefix('v1')
 
