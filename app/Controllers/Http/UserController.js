@@ -13,6 +13,19 @@ class UserController {
  * @param {Request} ctx.request
  * @param {Response} ctx.response
  */
+  async index({ request, response }) {
+    try {
+
+      const user = await User.all()
+
+      return user
+    } catch (error) {
+      console.log(error)
+      return response.status(500).send({ errorDetails: error, error: "Erro interno" })
+    }
+
+  }
+
   async create({ request, response }) {
     try {
       const data = request.only(["username", "type_user", "email", "password"])
